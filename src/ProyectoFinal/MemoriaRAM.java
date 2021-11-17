@@ -1,8 +1,8 @@
-package Paquete;
+package ProyectoFinal;
 
 import javax.swing.JLabel;
 
-public class RAM { //CLASE RAM 
+public class MemoriaRAM { //CLASE RAM 
   boolean ocupado; //ESPACIO OCUPADO
   int IDOcupador;//ID DEL PROCESO OCUPADOR
   int No_Espacio; //NUMERO DE ESPACIO
@@ -10,7 +10,7 @@ public class RAM { //CLASE RAM
 	
   
   //CONSTURCTOR CONS SUS PARAMETROS E INICIALIZACIONES
-  RAM(boolean ocupado, int IDOcupador, int Numero){
+  MemoriaRAM(boolean ocupado, int IDOcupador, int Numero){
 	  this.ocupado=ocupado;
 	  this.IDOcupador=IDOcupador;
 	  this.No_Espacio=Numero;

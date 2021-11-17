@@ -1,4 +1,4 @@
-package Paquete;
+package ProyectoFinal;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,7 +8,7 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class VentanaPrincipal extends JFrame {//CLASE VENTANA
+public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,14 +16,14 @@ public class VentanaPrincipal extends JFrame {//CLASE VENTANA
 	JButton iniciar, log, limpiar;//BOTONES PARA LA INTERFAZ
 	JPanel leyenda, panelRAM, RAM;//PANELES DE LA INTERFAZ
 	Color color[] = { Color.RED, Color.white };//COLORES FIJOS DE LA INTERFAZ
-	RAM[] Memoria;//ARREGLO DE LA CLASE RAM
+	MemoriaRAM[] Memoria;//ARREGLO DE LA CLASE RAM
 	JTextArea consola;//AREA DE TEXTO PARA LA VISUALIZACION DE LOS PROCESOS
 	String logg = "";
 	JLabel procesosF[] = new JLabel[4];//ARREGLO DE ETIQUETAS
 	int[] proF = { 0, 0, 0, 0 };//ARREGLO PARA VISUALIZAR NUMERO DE PROCESOS TERMNINADOS
 	String[] tit = { "Tiempo real: ", "Usuario 1: ", "Usuario 2: ", "Usuario 3: " };//ARREGLO DE STRING PARA VISUALIZAR QUE PROCESO TERMINO
 
-	public VentanaPrincipal(RAM[] ram) {//CONSTRUCTOR DE LA CLASE
+	public JFrameVentanaPrincipal(MemoriaRAM[] ram) {//CONSTRUCTOR DE LA CLASE
 		
 		//INICIALIZAMOS 
 		rgb = new int[3];
@@ -120,6 +120,7 @@ public class VentanaPrincipal extends JFrame {//CLASE VENTANA
 		panelConsola.add(limpiar);
 		panelRAM.add(RAM);
 		panelRAM.add(leyenda);
+		panelConsola.setBorder(BorderFactory.createEtchedBorder());
 		add(panelRAM);
 		add(comp);
 		add(info);
@@ -133,7 +134,7 @@ public class VentanaPrincipal extends JFrame {//CLASE VENTANA
 		
 		//FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA PROCESOS DE TIEMPO REAL
 		for (int i = 0; i < 2; i++) {
-			Memoria[i] = new RAM(false, 0, i);
+			Memoria[i] = new MemoriaRAM(false, 0, i);
 			Memoria[i].Barra.setBackground(Color.red);
 			Memoria[i].Barra.setOpaque(true);
 			Memoria[i].Barra.setText("" + i);
@@ -144,7 +145,7 @@ public class VentanaPrincipal extends JFrame {//CLASE VENTANA
 		//FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA PROCESOS DE USUARIO
 		for (int i = 2; i < 32; i++) {
 
-			Memoria[i] = new RAM(false, 0, i);
+			Memoria[i] = new MemoriaRAM(false, 0, i);
 			Memoria[i].Barra.setBackground(Color.white);
 			Memoria[i].Barra.setOpaque(true);
 			Memoria[i].Barra.setText("" + i);

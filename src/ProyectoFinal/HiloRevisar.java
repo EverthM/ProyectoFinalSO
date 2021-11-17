@@ -1,11 +1,11 @@
-package Paquete;
+package ProyectoFinal;
 
-public class Revisar extends Thread {// CLASE REVISAR
+public class HiloRevisar extends Thread {// CLASE REVISAR
 
-	Proceso pr;// OBJETO PROCESO
-	Programa pro;// OBJETO PROGRAMA
+	ModeloProceso pr;// OBJETO PROCESO
+	PrincipalPrograma pro;// OBJETO PROGRAMA
 
-	Revisar(Programa pro) {// CONSTRUCTOR DE LA CLASE
+	HiloRevisar(PrincipalPrograma pro) {// CONSTRUCTOR DE LA CLASE
 
 		// INSTRANCIAMOS EL OBJETO
 		this.pro = pro;
@@ -17,7 +17,7 @@ public class Revisar extends Thread {// CLASE REVISAR
 
 		while (pro.Contador < pro.limite) {// MIENTRAS EL CONTADOR SEA MENOR AL LIMITE
 
-			Proceso pr = pro.crearProceso(pro.abrirProceso());// ABRIMOS EL ARCHIVO DONDE ESTAN LOS PROCESOS
+			ModeloProceso pr = pro.crearProceso(pro.abrirProceso());// ABRIMOS EL ARCHIVO DONDE ESTAN LOS PROCESOS
 
 			if (pr.getPri_Actual() == 0) {// IF PARA SABER LA PRIORIDAD----- TIEMPO REAL
 

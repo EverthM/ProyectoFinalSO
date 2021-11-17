@@ -1,6 +1,6 @@
-package Paquete;
+package ProyectoFinal;
 
-public class Proceso {
+public class ModeloProceso {
 	
 int ID;
 int Status;//Corriendo, parado..
@@ -25,7 +25,7 @@ boolean accesoTotal=false; //Variable de acceso total
 
 
 	//Metodo constructor con todos sus parametros y sus inicializaciones
-	Proceso(int ID,int T_Llegada, int Prioridad, int Requerido, int Memoria,  
+	ModeloProceso(int ID,int T_Llegada, int Prioridad, int Requerido, int Memoria,  
 			int CantImpre,int CantScann, int CantModem, int CantCD){
 		
 		this.ID=ID;

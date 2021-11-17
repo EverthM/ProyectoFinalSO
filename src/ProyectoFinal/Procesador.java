@@ -1,4 +1,4 @@
-package Paquete;
+package ProyectoFinal;
 
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
@@ -7,15 +7,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 public class Procesador extends SwingWorker<Object, Object> {
-	private Proceso actual;// Proceso a correr cada tick
-	ArrayList<Proceso> TiempoReal, usuario1, usuario2, usuario3;// Colas
+	private ModeloProceso actual;// Proceso a correr cada tick
+	ArrayList<ModeloProceso> TiempoReal, usuario1, usuario2, usuario3;// Colas
 	int Impresora = 2, Scanner = 1, Modem = 1, CD = 2;// Dispositivos E/S
-	VentanaPrincipal vp;// Ventana principal
+	JFrameVentanaPrincipal vp;// Ventana principal
 	boolean color = false;// Para poner color a la RAM
 	boolean pass = true;// Para detener el while principal
 
-	Procesador(ArrayList<Proceso> TiempoReal, ArrayList<Proceso> usuario1, ArrayList<Proceso> usuario2,
-			ArrayList<Proceso> usuario3, VentanaPrincipal vp) {
+	Procesador(ArrayList<ModeloProceso> TiempoReal, ArrayList<ModeloProceso> usuario1, ArrayList<ModeloProceso> usuario2,
+			ArrayList<ModeloProceso> usuario3, JFrameVentanaPrincipal vp) {
 
 		// Asignacion
 		this.TiempoReal = TiempoReal;
@@ -517,11 +517,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 	}// Fin asigna
 
 	// GETS AND SETS
-	public Proceso getProceso() {
+	public ModeloProceso getProceso() {
 		return actual;
 	}
 
-	public void setProceso(Proceso actual) {
+	public void setProceso(ModeloProceso actual) {
 		this.actual = actual;
 	}
 

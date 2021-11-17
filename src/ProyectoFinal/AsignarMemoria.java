@@ -1,11 +1,11 @@
-package Paquete;
+package ProyectoFinal;
 
 public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 
-	Programa pro;// OBJETO PROGRAMA
-	Proceso proceso;// OBJETO PROCESO
+	PrincipalPrograma pro;// OBJETO PROGRAMA
+	ModeloProceso proceso;// OBJETO PROCESO
 
-	public AsignarMemoria(Programa pro, Proceso proceso) {// CONSTRUCTOR DE LA CLASE
+	public AsignarMemoria(PrincipalPrograma pro, ModeloProceso proceso) {// CONSTRUCTOR DE LA CLASE
 
 		// INSTANCIAMOS LOS OBJETOS
 		this.pro = pro;
@@ -16,9 +16,9 @@ public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 		inicializadorProceso(proceso);
 	}
 
-	public void inicializadorProceso(Proceso pr) {// METODO INICIAR PROCESO
+	public void inicializadorProceso(ModeloProceso pr) {// METODO INICIAR PROCESO
 
-		Proceso p = pr;// CREACION DE OBJETO PROCESO
+		ModeloProceso p = pr;// CREACION DE OBJETO PROCESO
 
 		switch (p.getPri_Inicial()) {// SWITCH PARA SABER LA PRIORIDAD DE LOS PROCESOS
 

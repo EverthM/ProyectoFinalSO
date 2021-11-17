@@ -1,4 +1,4 @@
-package Paquete;
+package ProyectoFinal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,24 +10,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 	//Clase programa en donde se manipula los procesos
-public class Programa { 
+public class PrincipalPrograma { 
 
-	VentanaPrincipal vp; //variable de la ventana pricipal
+	JFrameVentanaPrincipal vp; //variable de la ventana pricipal
 	Procesador procesador; //variable del procesador
-	ArrayList<Proceso> TiempoReal, Usuario1, Usuario2, Usuario3; // Arraylist que almacenan los procesos y tambien las prioridades de estos
+	ArrayList<ModeloProceso> TiempoReal, Usuario1, Usuario2, Usuario3; // Arraylist que almacenan los procesos y tambien las prioridades de estos
 	ArrayList<String> Todo; //Arralist de control de en la entrada de los procesos
-	RAM Memoria[]; //vector de memoria
+	MemoriaRAM Memoria[]; //vector de memoria
 	int IDS = 1; //Variable del IDS
 	int limite=0; //Variable del limite
 	int Contador=0; // variable del contador
 	
 	//Metodo constructor de la clase con sus respectivas inicializaciones
-	public Programa() {
-		Memoria = new RAM[32];
-		TiempoReal = new ArrayList<Proceso>();
-		Usuario1 = new ArrayList<Proceso>();
-		Usuario2 = new ArrayList<Proceso>();
-		Usuario3 = new ArrayList<Proceso>();
+	public PrincipalPrograma() {
+		Memoria = new MemoriaRAM[32];
+		TiempoReal = new ArrayList<ModeloProceso>();
+		Usuario1 = new ArrayList<ModeloProceso>();
+		Usuario2 = new ArrayList<ModeloProceso>();
+		Usuario3 = new ArrayList<ModeloProceso>();
 		Todo = new ArrayList<String>();
        
 		acciones();
@@ -37,7 +37,7 @@ public class Programa {
 	
 	//Metodo de de acciones que se muestran en la ventana grafica
 	public void acciones() {
-		vp = new VentanaPrincipal(Memoria); //Muestra en ventana la memoria
+		vp = new JFrameVentanaPrincipal(Memoria); //Muestra en ventana la memoria
 		
 
 		vp.iniciar.addActionListener(ActionEvent -> { // Para motrar la inicializacion de los procesos
@@ -108,7 +108,7 @@ public class Programa {
 
 	}//Fin 
 
-	public Proceso crearProceso(String datos) { //METODO QUE LEE LAS LINEAS DE LA MANERA DEBIDA PARA CARGAR LOS PROCESOS DEL TXT
+	public ModeloProceso crearProceso(String datos) { //METODO QUE LEE LAS LINEAS DE LA MANERA DEBIDA PARA CARGAR LOS PROCESOS DEL TXT
 
 		boolean add = true; //VARIABLE BOOLEANA PARA AÑADIR
 		
@@ -141,9 +141,9 @@ public class Programa {
 		for (int i = 0; i < resStr.size(); i++) { //FOR PARA RECORRER LA LISTA QUE YA FUERON LEIDAS Y PREPARADAS
 			res.add(Integer.parseInt(resStr.get(i)));
 		}
-		Proceso p=null;
+		ModeloProceso p=null;
 try {
-		p= new Proceso(IDS, res.get(0), res.get(1), res.get(2)
+		p= new ModeloProceso(IDS, res.get(0), res.get(1), res.get(2)
 				, res.get(3), res.get(4), res.get(5), res.get(6),
 				res.get(7));// Crea el objeto Proceso
 		IDS++;
@@ -159,7 +159,7 @@ return p;
        
             contar(); //LLAMA AL METODO CONTAR
 		
-			Revisar r = new Revisar(this); //CREA EL OBJETO DE LA CLASE 
+			HiloRevisar r = new HiloRevisar(this); //CREA EL OBJETO DE LA CLASE 
 			r.start(); //COMIENZA EL METODO STAR
 	         
 	

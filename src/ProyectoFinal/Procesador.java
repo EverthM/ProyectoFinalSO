@@ -473,7 +473,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+						
 							e.printStackTrace();
 						}
 						getProceso().setT_Restante(getProceso().getT_Restante() - 1);
@@ -492,7 +492,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 				}
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

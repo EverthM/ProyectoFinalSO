@@ -74,7 +74,7 @@ public class PrincipalPrograma {
 		 try {
 				fr = new FileReader(archivo); //LECTURA DEL TXT
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 	        br = new BufferedReader(fr);
@@ -84,7 +84,7 @@ public class PrincipalPrograma {
 					limite++;
 				}
 			} catch (IOException e) { //EXCEPTION DEL TRY CATCH
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 	        
@@ -101,7 +101,7 @@ public class PrincipalPrograma {
 				Contador++; //CONTADOR QUE AUMENTA
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 		return linea; //RETORNA LINEA
@@ -110,7 +110,7 @@ public class PrincipalPrograma {
 
 	public ModeloProceso crearProceso(String datos) { //METODO QUE LEE LAS LINEAS DE LA MANERA DEBIDA PARA CARGAR LOS PROCESOS DEL TXT
 
-		boolean add = true; //VARIABLE BOOLEANA PARA AÑADIR
+		boolean add = true; //VARIABLE BOOLEANA PARA Aï¿½ADIR
 		
 		//ARRAYLIST PARA ALMACENAR LOS PROCESOS
 		ArrayList<String> resStr = new ArrayList<String>();

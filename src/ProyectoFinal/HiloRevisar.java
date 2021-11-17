@@ -55,7 +55,6 @@ public class HiloRevisar extends Thread {// CLASE REVISAR
 							Thread.sleep(1000);
 
 						} catch (InterruptedException e) {// CAPTURA DE EXCEPCIONES
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 

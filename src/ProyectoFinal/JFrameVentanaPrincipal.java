@@ -28,7 +28,7 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 		//INICIALIZAMOS 
 		rgb = new int[3];
 		Memoria = ram;
-		setSize(1000, 730);//DAMOS TAMAÑO DE LA VENTANA
+		setSize(1000, 730);//DAMOS TAMAï¿½O DE LA VENTANA
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -109,7 +109,7 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 
 		//BOTON REGISTRO
 		log = new JButton("Registro");
-		//BOTON PARA LIMPIAR TODO
+		//BOTON PARA LIMPIAR Todo
 		limpiar = new JButton("Limpiar todo");
 
 		JLabel comp = new JLabel("Procesos completados >");//ETIQUETA QUE INDICATIVA

@@ -13,7 +13,7 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 	private static final long serialVersionUID = 1L;
 
 	int[] rgb;//ARREGLO PARA LOS COLORES DE LA MEMORIA
-	JButton iniciar, log, limpiar;//BOTONES PARA LA INTERFAZ
+	JButton iniciar, log, limpiar, selectFile;//BOTONES PARA LA INTERFAZ
 	JPanel leyenda, panelRAM, RAM;//PANELES DE LA INTERFAZ
 	Color color[] = { Color.RED, Color.white };//COLORES FIJOS DE LA INTERFAZ
 	MemoriaRAM[] Memoria;//ARREGLO DE LA CLASE RAM
@@ -67,6 +67,11 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 
 		//BOTON INICIAR SIMULAICON
 		iniciar = new JButton("Iniciar simulacion");
+
+		//BOTON SELECIONAR ARCHIVO
+		selectFile = new JButton("Selecione el archivo");
+		selectFile.setBackground(Color.red.darker());
+		selectFile.setForeground(Color.white);
 
 		//ETIQUETAS PARA LOS CUADRITOS DONDE INDICA LA MEMORIA LIBRE Y RESERVADA
 		JLabel cuadritos[];
@@ -125,6 +130,7 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 		add(comp);
 		add(info);
 		add(panelConsola);
+		add(selectFile);
 
 		inicializarRAM();//LLAMAMOS AL METODO INICIALIZAR RAM
 	}// Fin

@@ -111,6 +111,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		iniciar.setPreferredSize(new Dimension(200,40));
 		iniciar.setEnabled(false);
 		iniciar.setFont(new Font("Arial", Font.CENTER_BASELINE, 13));
+		iniciar.setBackground(Color.green);
 
 		// BOTON SELECIONAR ARCHIVO
 		selectFile = new JButton("Selecione el archivo");
@@ -130,6 +131,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		consola = new JTextArea();
 		consola.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 		consola.setLineWrap(true);
+	
 
 		JScrollPane scr = new JScrollPane(consola);
 		scr.setPreferredSize(new Dimension(250, 450));
@@ -141,7 +143,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		recargar.setPreferredSize(new Dimension(200,40));
 		recargar.setEnabled(false);
 		recargar.setFont(new Font("Arial", Font.CENTER_BASELINE, 13));
-		
+		recargar.setBackground(Color.orange);
 
 		modelo = new DefaultTableModel();
 		
@@ -171,11 +173,14 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		
 		JScrollPane scrTabla = new JScrollPane(tabla);
 		scrTabla.setPreferredSize(new Dimension(1590, 610));
+		
+		
 
         msg= new JLabel("CARGUE E INICIE LOS PROCESOS");
 		msg.setHorizontalAlignment(SwingConstants.CENTER);
 		msg.setFont(new Font("Arial", Font.BOLD, 16));
 		msg.setLocation(300, 500);
+		
 
 		panelControl.add(msg);
         panelControl.add(selectFile);

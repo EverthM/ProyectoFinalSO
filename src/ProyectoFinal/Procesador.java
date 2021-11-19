@@ -56,14 +56,14 @@ public class Procesador extends SwingWorker<Object, Object> {
 						}
 					 }
 					 for(int i=0; i<usuario2.size(); i++){
-						if (!usuario1.get(i).Color) {// Colorea la RAM
-							asigna(usuario1.get(i));
+						if (!usuario2.get(i).Color) {// Colorea la RAM
+							asigna(usuario2.get(i));
 							Thread.sleep(700);
 						}
 					 }
 					 for(int i=0; i<usuario3.size(); i++){
-						if (!usuario1.get(i).Color) {// Colorea la RAM
-							asigna(usuario1.get(i));
+						if (!usuario3.get(i).Color) {// Colorea la RAM
+							asigna(usuario3.get(i));
 							Thread.sleep(700);
 						}
 					 }

@@ -7,138 +7,166 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
+public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 
 	private static final long serialVersionUID = 1L;
 
-	int[] rgb;//ARREGLO PARA LOS COLORES DE LA MEMORIA
-	JButton iniciar, log, limpiar, selectFile;//BOTONES PARA LA INTERFAZ
-	JPanel leyenda, panelRAM, RAM;//PANELES DE LA INTERFAZ
-	Color color[] = { Color.RED, Color.white };//COLORES FIJOS DE LA INTERFAZ
-	MemoriaRAM[] Memoria;//ARREGLO DE LA CLASE RAM
-	JTextArea consola;//AREA DE TEXTO PARA LA VISUALIZACION DE LOS PROCESOS
+	int[] rgb;// ARREGLO PARA LOS COLORES DE LA MEMORIA
+	JButton iniciar, log, recargar, selectFile;// BOTONES PARA LA INTERFAZ
+	JPanel leyenda, panelRAM, RAM;// PANELES DE LA INTERFAZ
+	Color color[] = { Color.RED, Color.white };// COLORES FIJOS DE LA INTERFAZ
+	MemoriaRAM[] Memoria;// ARREGLO DE LA CLASE RAM
+	JTextArea consola;// AREA DE TEXTO PARA LA VISUALIZACION DE LOS PROCESOS
 	String logg = "";
-	JLabel procesosF[] = new JLabel[4];//ARREGLO DE ETIQUETAS
-	int[] proF = { 0, 0, 0, 0 };//ARREGLO PARA VISUALIZAR NUMERO DE PROCESOS TERMNINADOS
-	String[] tit = { "Tiempo real: ", "Usuario 1: ", "Usuario 2: ", "Usuario 3: " };//ARREGLO DE STRING PARA VISUALIZAR QUE PROCESO TERMINO
+	JLabel msg;
+	DefaultTableModel modelo;
+	JTable tabla;
 
-	public JFrameVentanaPrincipal(MemoriaRAM[] ram) {//CONSTRUCTOR DE LA CLASE
-		
-		//INICIALIZAMOS 
+	public JFrameVentanaPrincipal(MemoriaRAM[] ram) {// CONSTRUCTOR DE LA CLASE
+
+		// INICIALIZAMOS
 		rgb = new int[3];
 		Memoria = ram;
-		setSize(1000, 730);//DAMOS TAMA�O DE LA VENTANA
+		setSize(1500, 900);// DAMOS TAMA�O DE LA VENTANA
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		setLayout(new FlowLayout());
 
-		initComp();//LLAMAMOS AL METODO
+		initComp();// LLAMAMOS AL METODO
 
 		setVisible(true);
 	}
 
-	
-	
-	public void initComp() { //METODO DONDE SE CREA LA INTERFAZ
-		//CREAMOS UN PANEL PRINCIPAL
+	public void initComp() { // METODO DONDE SE CREA LA INTERFAZ
+		// CREAMOS UN PANEL PRINCIPAL
 		JPanel panelConsola = new JPanel();
 		panelConsola.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		panelConsola.setPreferredSize(new Dimension(400, 600));
-		//getContentPane().setBackground(Color.black);
-		//PANEL PARA LA BARRA MEMORIA RAM
+		// getContentPane().setBackground(Color.black);
+		// PANEL PARA LA BARRA MEMORIA RAM
 		panelRAM = new JPanel();
 		panelRAM.setLayout(new FlowLayout());
 		panelRAM.setPreferredSize(new Dimension(this.getSize().width, 100));
 
-		
-		//PANEL PARA VER LA LEYENDA DE PROCESOS
+		// PANEL PARA VER LA LEYENDA DE PROCESOS
 		leyenda = new JPanel();
 		leyenda.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
 		leyenda.setPreferredSize(new Dimension(300, 45));
 
-		
-		//PANEL DONDE IRA LA BARRA DE LA MEMORIA RAM
+		// PANEL DONDE IRA LA BARRA DE LA MEMORIA RAM
 		RAM = new JPanel();
 		RAM.setPreferredSize(new Dimension(this.getWidth() - 20, 40));
 		RAM.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		RAM.setBorder(BorderFactory.createTitledBorder("Memoria RAM"));
 
-		//BOTON INICIAR SIMULAICON
+		// BOTON INICIAR SIMULAICON
 		iniciar = new JButton("Iniciar simulacion");
+		iniciar.setEnabled(false);
 
-		//BOTON SELECIONAR ARCHIVO
+		// BOTON SELECIONAR ARCHIVO
 		selectFile = new JButton("Selecione el archivo");
 		selectFile.setBackground(Color.red.darker());
 		selectFile.setForeground(Color.white);
 
-		//ETIQUETAS PARA LOS CUADRITOS DONDE INDICA LA MEMORIA LIBRE Y RESERVADA
+		// ETIQUETAS PARA LOS CUADRITOS DONDE INDICA LA MEMORIA LIBRE Y RESERVADA
 		JLabel cuadritos[];
 		cuadritos = new JLabel[2];
 		String datos[] = { "Memoria reservada", "Memoria Libre" };
 
-		
 		for (int i = 0; i < 2; i++) {
-			cuadritos[i] = new JLabel(new ImageIcon("iconos/cuadro.png"));//CUADRO COLOR ROJO
-			cuadritos[i].setBackground(color[i]);//CUADRO COLOR BLANCO
-			cuadritos[i].setOpaque(true);//SE HACE OPACO
+			cuadritos[i] = new JLabel(new ImageIcon("iconos/cuadro.png"));// CUADRO COLOR ROJO
+			cuadritos[i].setBackground(color[i]);// CUADRO COLOR BLANCO
+			cuadritos[i].setOpaque(true);// SE HACE OPACO
 
-			
 			JLabel j = new JLabel(datos[i]);
 			leyenda.add(cuadritos[i]);
 			leyenda.add(j);
 		} // Fin for
 
-		
-		//CREAMOS OTRO PANEL LLAMADO INFO
-		JPanel info = new JPanel();
-		info.setPreferredSize(new Dimension(600, 30));
-		info.setLayout(new GridLayout(1, 4, 40, 0));
-		
-		info.setBorder(BorderFactory.createEtchedBorder());
-		for (int i = 0; i < 4; i++) {
-			procesosF[i] = new JLabel();
-			procesosF[i].setText(tit[i] + proF[i]);
-			info.add(procesosF[i]);
-		} // Fin
+		// CREAMOS OTRO PANEL LLAMADO INFO
+		JPanel panelControl = new JPanel();
+		panelControl.setPreferredSize(new Dimension(600, 30));
+		panelControl.setLayout(new GridLayout(1, 4, 40, 0));
 
-		///CREAMOS UN AREA DE TEXTO 
+		panelControl.setBorder(BorderFactory.createEtchedBorder());
+
+		panelControl.add(selectFile);
+
+		/// CREAMOS UN AREA DE TEXTO
 		consola = new JTextArea();
 		consola.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 		consola.setLineWrap(true);
-		
+
 		JScrollPane scr = new JScrollPane(consola);
 		scr.setPreferredSize(new Dimension(250, 450));
-	
 
-		//BOTON REGISTRO
+		// BOTON REGISTRO
 		log = new JButton("Registro");
-		//BOTON PARA LIMPIAR Todo
-		limpiar = new JButton("Limpiar todo");
+		// BOTON PARA LIMPIAR Todo
+		recargar = new JButton("Recargar procesos");
+		recargar.setEnabled(false);
+		
 
-		JLabel comp = new JLabel("Procesos completados >");//ETIQUETA QUE INDICATIVA
+		modelo = new DefaultTableModel();
+		
+
+		String[] NombresDeColumnas = { "ID", "Estatus", "T. Llegada", "Prioridad inicial", "Prioridad", "T. Requerido", "T. Restante",
+				"RAM", "Ubicacion", "Impresoras pedidos", "Impresoras dados", "Escaneres pedidos",
+				"Escaneres dados", "Modens pedidos", "Modens dados", "CDs pedidos", "CDs dados" };
+
+		for (int i = 0; i < 17; i++) {
+			modelo.addColumn(NombresDeColumnas[i]);
+		}
+
+		tabla = new JTable(modelo);
+		tabla.getColumn("ID").setPreferredWidth(15);   
+		tabla.getColumn("Ubicacion").setPreferredWidth(45);
+		tabla.getColumn("Estatus").setPreferredWidth(45);
+		tabla.getColumn("Prioridad inicial").setPreferredWidth(55);
+		tabla.getColumn("Prioridad").setPreferredWidth(30);
+		tabla.getColumn("CDs pedidos").setPreferredWidth(50);
+		tabla.getColumn("CDs dados").setPreferredWidth(40);
+		tabla.getColumn("RAM").setPreferredWidth(15);
+		tabla.getColumn("Modens pedidos").setPreferredWidth(60);
+		tabla.getColumn("Modens dados").setPreferredWidth(54);
+		tabla.getColumn("T. Llegada").setPreferredWidth(54);
+		tabla.getColumn("T. Restante").setPreferredWidth(54);
+		tabla.getColumn("T. Requerido").setPreferredWidth(54);
+		
+		JScrollPane scrTabla = new JScrollPane(tabla);
+		scrTabla.setPreferredSize(new Dimension(1400, 600));
+
+        msg= new JLabel("CARGUE E INICIE LOS PROCESOS");
+		msg.setLocation(300, 500);
+
+		add(msg);
 
 		panelConsola.add(scr);
-		panelConsola.add(iniciar);
-		panelConsola.add(log);
-		panelConsola.add(limpiar);
+		panelControl.add(iniciar);
+		// panelControl.add(log);
+		panelControl.add(recargar);
 		panelRAM.add(RAM);
 		panelRAM.add(leyenda);
-		panelConsola.setBorder(BorderFactory.createEtchedBorder());
 		add(panelRAM);
-		add(comp);
-		add(info);
-		add(panelConsola);
-		add(selectFile);
+		add(panelControl);
+		add(scrTabla);
 
-		inicializarRAM();//LLAMAMOS AL METODO INICIALIZAR RAM
+		inicializarRAM();// LLAMAMOS AL METODO INICIALIZAR RAM
+
+		JDialog dialog = new JDialog();
+		dialog.setLayout(new FlowLayout());
+		dialog.setSize(new Dimension(500, 600));
+		dialog.add(scr);
+		dialog.setVisible(true);
 	}// Fin
 
-	public void inicializarRAM() {//METODO INICIARLIZAR RAM
+	public void inicializarRAM() {// METODO INICIARLIZAR RAM
 
-		
-		//FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA PROCESOS DE TIEMPO REAL
+		// FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA
+		// PROCESOS DE TIEMPO REAL
 		for (int i = 0; i < 2; i++) {
 			Memoria[i] = new MemoriaRAM(false, 0, i);
 			Memoria[i].Barra.setBackground(Color.red);
@@ -148,7 +176,8 @@ public class JFrameVentanaPrincipal extends JFrame {//CLASE VENTANA
 			RAM.add(Memoria[i].Barra);
 		}
 
-		//FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA PROCESOS DE USUARIO
+		// FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA
+		// PROCESOS DE USUARIO
 		for (int i = 2; i < 32; i++) {
 
 			Memoria[i] = new MemoriaRAM(false, 0, i);

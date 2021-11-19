@@ -1,5 +1,6 @@
 package ProyectoFinal;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +9,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 //Clase programa en donde se manipula los procesos
 public class PrincipalPrograma {
@@ -22,7 +27,9 @@ public class PrincipalPrograma {
 	int IDS = 1; // Variable del IDS
 	int limite = 0; // Variable del limite
 	int Contador = 0; // variable del contadorç
-	File archivo=null;
+	File archivo = null;
+
+	AtomicBoolean simulacionActiva;
 
 	// Metodo constructor de la clase con sus respectivas inicializaciones
 	public PrincipalPrograma() {
@@ -33,6 +40,8 @@ public class PrincipalPrograma {
 		Usuario3 = new ArrayList<ModeloProceso>();
 		Todo = new ArrayList<String>();
 
+		simulacionActiva = new AtomicBoolean(false);
+
 		acciones();
 
 	}// Constructor
@@ -42,14 +51,20 @@ public class PrincipalPrograma {
 		vp = new JFrameVentanaPrincipal(Memoria); // Muestra en ventana la memoria
 
 		vp.iniciar.addActionListener(ActionEvent -> { // Para motrar la inicializacion de los procesos
+          if(simulacionActiva.get()){
+			  JOptionPane.showMessageDialog(null, "Espere a que la simulacion termine o cierre el programa");
+		  }else{
 
 			Contador = 0;
 			limite = 0;
 
-			procesador = new Procesador(TiempoReal, Usuario1, Usuario2, Usuario3, vp);
+			procesador = new Procesador(TiempoReal, Usuario1, Usuario2, Usuario3, vp, simulacionActiva);
 			procesador.execute();
-			inicializadorProceso();
 
+			vp.iniciar.setEnabled(false);
+
+			// inicializadorProceso();
+		  }
 		});// FIN ACCION
 
 		// Muestra los datos de los procesos en la consola
@@ -57,20 +72,42 @@ public class PrincipalPrograma {
 			vp.consola.setText(vp.logg);
 
 		});
-		vp.limpiar.addActionListener(ActionEvent -> {
-			vp.consola.setText("");
-			for (int i = 0; i < 4; i++) {
-				vp.proF[i] = 0;
-				vp.procesosF[i].setText(vp.tit[i] + vp.proF[i]);
+		vp.recargar.addActionListener(ActionEvent -> {
+			if (TiempoReal.size() == 0 && Usuario1.size() == 0 && Usuario2.size() == 0 && Usuario3.size() == 0) {
+
+				if (archivo != null) {
+					IDS = 1;
+					Contador = 0;
+					limite = 0;
+
+					inicializadorProceso();
+					vp.iniciar.setEnabled(true);
+					vp.recargar.setEnabled(false);
+				} else
+					JOptionPane.showMessageDialog(null, "Primero seleccione un archivo TXT");
+			}else {
+				JOptionPane.showMessageDialog(null, "Espere a que la simulacion termine");
 			}
 
 		});
 
 		vp.selectFile.addActionListener(ActionEvent -> {
 			JFileChooser fileChooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("TXT", "txt");
+			fileChooser.setFileFilter(filter);
 			int seleccion = fileChooser.showOpenDialog(vp.selectFile);
+
 			if (seleccion == JFileChooser.APPROVE_OPTION) {
 				archivo = fileChooser.getSelectedFile();
+				vp.selectFile.setBackground(Color.green.darker());
+				vp.selectFile.setText(archivo.getName());
+
+				if (TiempoReal.size() == 0 && Usuario1.size() == 0 && Usuario2.size() == 0 && Usuario3.size() == 0){
+					inicializadorProceso();
+					vp.iniciar.setEnabled(true);
+					vp.recargar.setEnabled(false);
+				}
+					
 			}
 		});
 	}// Fin
@@ -106,7 +143,8 @@ public class PrincipalPrograma {
 
 			if (Contador < limite) { // CONDICOON PARA SABER SI EL CONTADOR HA LLEGADO AL LIMITE PERMITIDO DE
 										// PROCESOS QUE LEEER
-				linea = Files.readAllLines(Paths.get(archivo.getAbsolutePath())).get(Contador); // LECTURA LAS LINEAS DE PROCESOS
+				linea = Files.readAllLines(Paths.get(archivo.getAbsolutePath())).get(Contador); // LECTURA LAS LINEAS DE
+																								// PROCESOS
 				Contador++; // CONTADOR QUE AUMENTA
 			}
 		} catch (IOException e) {
@@ -156,6 +194,10 @@ public class PrincipalPrograma {
 			p = new ModeloProceso(IDS, res.get(0), res.get(1), res.get(2), res.get(3), res.get(4), res.get(5),
 					res.get(6), res.get(7));// Crea el objeto Proceso
 			IDS++;
+
+			vp.modelo.addRow(new Object[] { p.ID, "Detenido", p.T_Llegada, p.Pri_Inicial, p.Pri_Actual, p.T_Requerido,
+					p.T_Restante, p.Memoria, p.Ubicacion, p.ImpresorasSolicitadas, p.Impresoras, p.ScanneresSolicitado,
+					p.Scanneres, p.ModemsSolicitados, p.Modems, p.CDSolicitados, p.CD });
 
 		} catch (Exception e) {
 		}

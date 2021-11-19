@@ -32,7 +32,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		setSize(1500, 900);// DAMOS TAMA�O DE LA VENTANA
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		getContentPane().setBackground(Color.pink);
 		setLayout(new FlowLayout());
 
 		initComp();// LLAMAMOS AL METODO
@@ -45,12 +45,12 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		JPanel panelConsola = new JPanel();
 		panelConsola.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		panelConsola.setPreferredSize(new Dimension(400, 600));
-		// getContentPane().setBackground(Color.black);
+		
 		// PANEL PARA LA BARRA MEMORIA RAM
 		panelRAM = new JPanel();
 		panelRAM.setLayout(new FlowLayout());
 		panelRAM.setPreferredSize(new Dimension(this.getSize().width, 100));
-
+		panelRAM.setBackground(Color.pink);
 		// PANEL PARA VER LA LEYENDA DE PROCESOS
 		leyenda = new JPanel();
 		leyenda.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
@@ -61,7 +61,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		RAM.setPreferredSize(new Dimension(this.getWidth() - 20, 40));
 		RAM.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		RAM.setBorder(BorderFactory.createTitledBorder("Memoria RAM"));
-
+		RAM.setBackground(Color.pink);
 		// BOTON INICIAR SIMULAICON
 		iniciar = new JButton("Iniciar simulacion");
 		iniciar.setEnabled(false);
@@ -90,7 +90,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		JPanel panelControl = new JPanel();
 		panelControl.setPreferredSize(new Dimension(600, 30));
 		panelControl.setLayout(new GridLayout(1, 4, 40, 0));
-
+		panelControl.setBackground(Color.pink);
 		panelControl.setBorder(BorderFactory.createEtchedBorder());
 
 		panelControl.add(selectFile);

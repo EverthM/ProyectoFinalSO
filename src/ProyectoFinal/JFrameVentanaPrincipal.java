@@ -126,12 +126,13 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		panelControl.setLayout(new GridLayout(1, 4, 40, 0));
 		panelControl.setOpaque(false);
 		panelControl.setBorder(BorderFactory.createEtchedBorder());
+	
 
 		/// CREAMOS UN AREA DE TEXTO
 		consola = new JTextArea();
 		consola.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 		consola.setLineWrap(true);
-	
+		
 
 		JScrollPane scr = new JScrollPane(consola);
 		scr.setPreferredSize(new Dimension(250, 450));
@@ -146,6 +147,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		recargar.setBackground(Color.orange);
 
 		modelo = new DefaultTableModel();
+		
 		
 
 		String[] NombresDeColumnas = { "ID", "Estatus", "T. Llegada", "Prioridad inicial", "Prioridad", "T. Requerido", "T. Restante",
@@ -173,6 +175,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		
 		JScrollPane scrTabla = new JScrollPane(tabla);
 		scrTabla.setPreferredSize(new Dimension(1590, 610));
+
 		
 		
 
@@ -197,6 +200,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		dialog.setLayout(new FlowLayout());
 		dialog.setSize(new Dimension(500, 600));
 		dialog.add(scr);
+		
 		//dialog.setVisible(true);
 
         
@@ -211,7 +215,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 
 		
 	}// Fin
-
+//
 	public void inicializarRAM() {// METODO INICIARLIZAR RAM
 
 		// FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA
@@ -226,7 +230,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 			Memoria[i].Barra.setPreferredSize(new Dimension(40, 40));
 			RAM.add(Memoria[i].Barra);
 		}
-
+//
 		// FOR PARA ASIGNAR LOS COLORES DE LA RAM Y EN QUE POSICION ESTA OCUPADA PARA
 		// PROCESOS DE USUARIO
 		for (int i = 2; i < 32; i++) {

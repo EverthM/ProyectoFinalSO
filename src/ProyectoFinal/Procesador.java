@@ -32,18 +32,60 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 	@Override
 	protected Object doInBackground() throws Exception {
+
+		for(int i=0; i<TiempoReal.size(); i++){
+			for (int t = 0; t < vp.modelo.getRowCount(); t++) {
+
+				if ((int) vp.modelo.getValueAt(t, 0) == TiempoReal.get(i).ID) {
+					vp.modelo.setValueAt("Bloqueado", t, 1);
+				}
+
+			}
+		 }
+
+         Thread colorear = new Thread(){
+			 @Override
+			 public void run() {
+				 super.run();
+                try{
+				 while(pass){
+					 for(int i=0; i<usuario1.size(); i++){
+						if (!usuario1.get(i).Color) {// Colorea la RAM
+							asigna(usuario1.get(i));
+							Thread.sleep(700);
+						}
+					 }
+					 for(int i=0; i<usuario2.size(); i++){
+						if (!usuario1.get(i).Color) {// Colorea la RAM
+							asigna(usuario1.get(i));
+							Thread.sleep(700);
+						}
+					 }
+					 for(int i=0; i<usuario3.size(); i++){
+						if (!usuario1.get(i).Color) {// Colorea la RAM
+							asigna(usuario1.get(i));
+							Thread.sleep(700);
+						}
+					 }
+				 }
+				}catch(Exception e){}
+
+			 }
+		 };
+		 colorear.start();
+
 		// Metodo principal a correr
 
 		// Bucle que se repite hasta acabar todos los procesos
 		while (pass) {
-
+            
 			// Si la cola de tiempo real tiene datos entra
 			if (0 != TiempoReal.size()) {
 
 				// Recorriendo cola
 				for (int i = 0; i < TiempoReal.size(); i++) {
 					setProceso(TiempoReal.get(i));// Obtener el proceso de la cola
-
+                    
 					for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 						if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
@@ -90,10 +132,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 					setProceso(usuario1.get(i));// Establece proceso
 
-					if (!getProceso().Color) {// Colorea la RAM
-						asigna();
-						getProceso().Color = true;
-					}
+				
 
 					while (true) {// Pide Dispositivos E/S
 
@@ -290,10 +329,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 				for (int i = 0; i < usuario2.size(); i++) {
 
 					setProceso(usuario2.get(i));// Se establece el proceso
-					if (!getProceso().Color) {// Colorea ram
-						asigna();
-						getProceso().Color = true;
-					}
+					// if (!getProceso().Color) {// Colorea ram
+					// 	asigna();
+					// 	getProceso().Color = true;
+					// }
 
 					// Pide D_E/S
 					while (true) {
@@ -484,10 +523,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 				for (int i = 0; i < usuario3.size(); i++) {
 
 					setProceso(usuario3.get(i));// Se esteblece
-					if (!getProceso().Color) {// Se colorea RAM
-						asigna();
-						getProceso().Color = true;
-					}
+					// if (!getProceso().Color) {// Se colorea RAM
+					// 	asigna();
+					// 	getProceso().Color = true;
+					// }
 
 					while (true) {// Pide Dispositivos E/S
 
@@ -744,7 +783,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 	}// Fin
 
-	public void asigna() {
+	public void asigna(ModeloProceso proceso) {
 		// Metodo que colorea la RAM
 		// Colores RGB aliatorios
 		vp.rgb[0] = (int) Math.floor(Math.random() * (255) + (0));
@@ -756,8 +795,16 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 			// Si el ID del proceso coincide con el ID del proceso que ocupa
 			// la RAM colorea
-			if (vp.Memoria[i].getIDOcupador() == getProceso().getID()) {
+			if (vp.Memoria[i].getIDOcupador() == proceso.getID()) {
 				vp.Memoria[i].Barra.setBackground(new Color(vp.rgb[0], vp.rgb[1], vp.rgb[2]));
+				proceso.Color = true;
+				for (int t = 0; t < vp.modelo.getRowCount(); t++) {
+
+					if ((int) vp.modelo.getValueAt(t, 0) == proceso.ID) {
+						vp.modelo.setValueAt("Bloqueado", t, 1);
+					}
+
+				}
 			} /// Fin if
 		} // Fin for
 	}// Fin asigna

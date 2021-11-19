@@ -103,6 +103,9 @@ public class PrincipalPrograma {
 				vp.selectFile.setText(archivo.getName());
 
 				if (TiempoReal.size() == 0 && Usuario1.size() == 0 && Usuario2.size() == 0 && Usuario3.size() == 0){
+					IDS = 1;
+					Contador = 0;
+					limite = 0;
 					inicializadorProceso();
 					vp.iniciar.setEnabled(true);
 					vp.recargar.setEnabled(false);

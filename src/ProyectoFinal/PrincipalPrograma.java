@@ -62,6 +62,7 @@ public class PrincipalPrograma {
 			procesador.execute();
 
 			vp.iniciar.setEnabled(false);
+			vp.MemoriaRAM.setVisible(true);
 
 			// inicializadorProceso();
 		  }
@@ -199,8 +200,8 @@ public class PrincipalPrograma {
 			IDS++;
 
 			vp.modelo.addRow(new Object[] { p.ID, "Detenido", p.T_Llegada, p.Pri_Inicial, p.Pri_Actual, p.T_Requerido,
-					p.T_Restante, p.Memoria, p.Ubicacion, p.ImpresorasSolicitadas, p.Impresoras, p.ScanneresSolicitado,
-					p.Scanneres, p.ModemsSolicitados, p.Modems, p.CDSolicitados, p.CD });
+			p.T_Restante, p.Memoria, "", p.ImpresorasSolicitadas, p.Impresoras, p.ScanneresSolicitado,
+			p.Scanneres, p.ModemsSolicitados, p.Modems, p.CDSolicitados, p.CD });
 
 		} catch (Exception e) {
 		}

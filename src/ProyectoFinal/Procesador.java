@@ -1,11 +1,8 @@
 package ProyectoFinal;
 
 import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 public class Procesador extends SwingWorker<Object, Object> {
@@ -43,36 +40,36 @@ public class Procesador extends SwingWorker<Object, Object> {
 			}
 		 }
 
-         Thread colorear = new Thread(){
-			 @Override
-			 public void run() {
-				 super.run();
-                try{
-				 while(pass){
-					 for(int i=0; i<usuario1.size(); i++){
-						if (!usuario1.get(i).Color) {// Colorea la RAM
-							asigna(usuario1.get(i));
-							Thread.sleep(700);
-						}
-					 }
-					 for(int i=0; i<usuario2.size(); i++){
-						if (!usuario2.get(i).Color) {// Colorea la RAM
-							asigna(usuario2.get(i));
-							Thread.sleep(700);
-						}
-					 }
-					 for(int i=0; i<usuario3.size(); i++){
-						if (!usuario3.get(i).Color) {// Colorea la RAM
-							asigna(usuario3.get(i));
-							Thread.sleep(700);
-						}
-					 }
-				 }
-				}catch(Exception e){}
+        //  Thread colorear = new Thread(){
+		// 	 @Override
+		// 	 public void run() {
+		// 		 super.run();
+        //         try{
+		// 		 while(pass){
+		// 			 for(int i=0; i<usuario1.size(); i++){
+		// 				if (!usuario1.get(i).Color) {// Colorea la RAM
+		// 					asigna(usuario1.get(i));
+		// 					Thread.sleep(700);
+		// 				}
+		// 			 }
+		// 			 for(int i=0; i<usuario2.size(); i++){
+		// 				if (!usuario2.get(i).Color) {// Colorea la RAM
+		// 					asigna(usuario2.get(i));
+		// 					Thread.sleep(700);
+		// 				}
+		// 			 }
+		// 			 for(int i=0; i<usuario3.size(); i++){
+		// 				if (!usuario3.get(i).Color) {// Colorea la RAM
+		// 					asigna(usuario3.get(i));
+		// 					Thread.sleep(700);
+		// 				}
+		// 			 }
+		// 		 }
+		// 		}catch(Exception e){}
 
-			 }
-		 };
-		 colorear.start();
+		// 	 }
+		//  };
+		//  colorear.start();
 
 		// Metodo principal a correr
 
@@ -90,8 +87,9 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 						if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 							vp.modelo.setValueAt("Listo", t, 1);
+							vp.modelo.setValueAt("R-0, R-1", t, 8);
 						}
-
+						
 					}
 
 					procesar();// Mandar a procesar
@@ -132,7 +130,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 					setProceso(usuario1.get(i));// Establece proceso
 
-				
+				    if (!getProceso().Color) {// Colorea ram
+						asigna(getProceso());
+						getProceso().Color = true;
+					}
 
 					while (true) {// Pide Dispositivos E/S
 
@@ -150,6 +151,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getCD(), t, 16);
+										vp.cantidadCD.setText("Disponible: "+CD);
+										
 									}
 
 								}
@@ -169,6 +172,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getImpresoras(), t, 10);
+										vp.cantidadPrinter.setText("Disponible: "+Impresora);
+										
 									}
 
 								}
@@ -188,6 +193,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getModems(), t, 14);
+										vp.cantidadModem.setText("Disponible: "+Modem);
+										
 									}
 
 								}
@@ -207,6 +214,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getScanneres(), t, 12);
+										vp.cantidadScanner.setText("Disponible: "+Scanner);
 									}
 
 								}
@@ -224,6 +232,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 								if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 									vp.modelo.setValueAt("Listo", t, 1);
+									Thread.sleep(200);
 								}
 
 							}
@@ -252,6 +261,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 						usuario2.add(usuario1.get(i));
 
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
+
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 							if ((int) vp.modelo.getValueAt(t, 0) == usuario1.get(i).ID) {
@@ -278,6 +292,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 						Scanner += usuario1.get(i).getScanneres();
 						usuario1.get(i).setScanneres(0);
+
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
 
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
@@ -329,10 +348,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 				for (int i = 0; i < usuario2.size(); i++) {
 
 					setProceso(usuario2.get(i));// Se establece el proceso
-					// if (!getProceso().Color) {// Colorea ram
-					// 	asigna();
-					// 	getProceso().Color = true;
-					// }
+				    if (!getProceso().Color) {// Colorea ram
+						asigna(getProceso());
+						getProceso().Color = true;
+					}
 
 					// Pide D_E/S
 					while (true) {
@@ -349,6 +368,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getCD(), t, 16);// CD
+										vp.cantidadCD.setText("Disponible: "+CD);
+										
 									}
 
 								}
@@ -369,6 +390,9 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getImpresoras(), t, 10);// Impresoa
+										
+										vp.cantidadPrinter.setText("Disponible: "+Impresora);
+										
 									}
 
 								}
@@ -389,6 +413,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getModems(), t, 14);// Moden
+									
+										vp.cantidadModem.setText("Disponible: "+Modem);
 									}
 
 								}
@@ -407,6 +433,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getScanneres(), t, 12);// Escaner
+										
+										vp.cantidadScanner.setText("Disponible: "+Scanner);
 									}
 
 								}
@@ -424,6 +452,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 								if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 									vp.modelo.setValueAt("Listo", t, 1);
+									Thread.sleep(200);
 								}
 
 							}
@@ -449,6 +478,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 						usuario2.get(i).setScanneres(0);
 
 						usuario3.add(usuario2.get(i));
+
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
 
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
@@ -476,6 +510,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 						Scanner += usuario2.get(i).getScanneres();
 						usuario2.get(i).setScanneres(0);
+
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
 
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
@@ -523,10 +562,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 				for (int i = 0; i < usuario3.size(); i++) {
 
 					setProceso(usuario3.get(i));// Se esteblece
-					// if (!getProceso().Color) {// Se colorea RAM
-					// 	asigna();
-					// 	getProceso().Color = true;
-					// }
+					if (!getProceso().Color) {// Colorea ram
+						asigna(getProceso());
+						getProceso().Color = true;
+					}
 
 					while (true) {// Pide Dispositivos E/S
 
@@ -542,6 +581,10 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getCD(), t, 16);// CD
+									
+										vp.cantidadCD.setText("Disponible: "+CD);
+										
+										
 									}
 	
 								}
@@ -560,6 +603,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getImpresoras(),t, 10);// Impresoa
+										vp.cantidadPrinter.setText("Disponible: "+Impresora);
+										vp.repaint();
 									}
 	
 								}
@@ -579,6 +624,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getModems(), t, 14);// Moden
+										vp.cantidadModem.setText("Disponible: "+Modem);
+										vp.repaint();
 									}
 	
 								}
@@ -598,6 +645,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 									if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 										vp.modelo.setValueAt(getProceso().getScanneres(), t, 12);// Escaner
+										vp.cantidadScanner.setText("Disponible: "+Scanner);
+										vp.repaint();
 									}
 	
 								}
@@ -616,6 +665,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 								if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 									vp.modelo.setValueAt("Listo", t, 1);
+									Thread.sleep(200);
 								}
 
 							}
@@ -640,6 +690,12 @@ public class Procesador extends SwingWorker<Object, Object> {
 						usuario3.get(i).setScanneres(0);
 
 						usuario3.add(usuario3.get(i));
+
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
+
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 							if ((int) vp.modelo.getValueAt(t, 0) == usuario3.get(i).ID) {
@@ -666,6 +722,12 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 						Scanner += usuario3.get(i).getScanneres();
 						usuario3.get(i).setScanneres(0);
+
+						vp.cantidadCD.setText("Disponible: "+CD);
+						vp.cantidadPrinter.setText("Disponible: "+Impresora);
+						vp.cantidadScanner.setText("Disponible: "+Scanner);
+						vp.cantidadModem.setText("Disponible: "+Modem);
+
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 							if ((int) vp.modelo.getValueAt(t, 0) == usuario3.get(i).ID) {
@@ -712,6 +774,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 				if (TiempoReal.size() == 0 && usuario1.size() == 0 && usuario2.size() == 0 && usuario3.size() == 0) {
 					simulacionActiva.set(false);
 					vp.recargar.setEnabled(true);
+					vp.MemoriaRAM.dispose();
 					pass = false;
 				}
 
@@ -723,12 +786,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 	public void procesar() {
 		// Metodo para procesar
-		try {
-			// Invoca y espera
-			SwingUtilities.invokeAndWait(new Runnable() {
-
-				@Override
-				public void run() {
+	
 
 					// Si es un proceso bueno
 					if (getProceso() != null) {
@@ -774,12 +832,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 
 					} // Fin else
 
-				}
-			});
-		} catch (InvocationTargetException | InterruptedException e) {
-
-			e.printStackTrace();
-		}
+			
 
 	}// Fin
 
@@ -800,8 +853,9 @@ public class Procesador extends SwingWorker<Object, Object> {
 				proceso.Color = true;
 				for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
-					if ((int) vp.modelo.getValueAt(t, 0) == proceso.ID) {
+					if ((int) vp.modelo.getValueAt(t, 0) == proceso.getID()) {
 						vp.modelo.setValueAt("Bloqueado", t, 1);
+						vp.modelo.setValueAt(proceso.getUbicacion(), t, 8);
 					}
 
 				}

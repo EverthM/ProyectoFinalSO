@@ -1,11 +1,12 @@
 package ProyectoFinal;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +18,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 	JButton iniciar, log, recargar, selectFile;// BOTONES PARA LA INTERFAZ
 	JTextArea consola;// AREA DE TEXTO PARA LA VISUALIZACION DE LOS PROCESOS
 	String logg = "";
-	JLabel msg;
+	JTextField ruta;
 
 	DefaultTableModel modelo;
 	JTable tabla;
@@ -114,16 +115,17 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		iniciar.setBackground(Color.green);
 
 		// BOTON SELECIONAR ARCHIVO
-		selectFile = new JButton("Selecione el archivo");
-		selectFile.setBackground(Color.red.darker());
+		selectFile = new JButton(new ImageIcon("iconos/file.png"));
 		selectFile.setForeground(Color.white);
-		selectFile.setPreferredSize(new Dimension(200,40));
-		selectFile.setFont(new Font("Arial", Font.CENTER_BASELINE, 13));
+		selectFile.setPreferredSize(new Dimension(40,40));
+		selectFile.setContentAreaFilled(false);
+		selectFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
 
 		// CREAMOS OTRO PANEL LLAMADO INFO
 		JPanel panelControl = new JPanel();
-		panelControl.setPreferredSize(new Dimension(1400, 40));
-		panelControl.setLayout(new GridLayout(1, 4, 40, 0));
+		panelControl.setPreferredSize(new Dimension(1400, 60));
+		panelControl.setLayout(new FlowLayout());
 		panelControl.setOpaque(false);
 		panelControl.setBorder(BorderFactory.createEtchedBorder());
 	
@@ -174,18 +176,25 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		tabla.getColumn("T. Requerido").setPreferredWidth(54);
 		
 		JScrollPane scrTabla = new JScrollPane(tabla);
-		scrTabla.setPreferredSize(new Dimension(this.getWidth(), 610));
+		scrTabla.setPreferredSize(new Dimension(this.getWidth(), 540));
 
 		
 
-        msg= new JLabel("CARGUE E INICIE LOS PROCESOS");
-		msg.setHorizontalAlignment(SwingConstants.CENTER);
-		msg.setFont(new Font("Arial", Font.BOLD, 16));
-		msg.setLocation(300, 500);
-		
+        ruta= new JTextField("CARGUE E INICIE LOS PROCESOS");
+		ruta.setEditable(false);
+		ruta.setPreferredSize(new Dimension(800,35));
+		ruta.setHorizontalAlignment(SwingConstants.CENTER);
+		ruta.setFont(new Font("Arial", Font.BOLD, 14));
 
-		panelControl.add(msg);
-        panelControl.add(selectFile);
+		JPanel panelSelectFile = new JPanel();
+		panelSelectFile.setPreferredSize(new Dimension(860, 50));
+		panelSelectFile.setLayout(new FlowLayout());
+		panelSelectFile.setOpaque(false);
+		
+		panelSelectFile.add(ruta);
+		panelSelectFile.add(selectFile);
+
+		panelControl.add(panelSelectFile);
 		panelControl.add(iniciar);
 		panelControl.add(recargar);
 		
@@ -205,9 +214,10 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
         
 		MemoriaRAM = new JDialog();
 		MemoriaRAM.setTitle("RAM");
-		MemoriaRAM.setSize(new Dimension(290, 292));
+		MemoriaRAM.setSize(new Dimension(350, 292));
 		MemoriaRAM.setLayout(new BorderLayout());
 		MemoriaRAM.setLocation(1320, 0);
+		MemoriaRAM.setAlwaysOnTop(true);
 		
 		panelRAM.add(RAM);
 		MemoriaRAM.add(panelRAM, BorderLayout.CENTER);

@@ -109,7 +109,7 @@ public class PrincipalPrograma {
 			if (seleccion == JFileChooser.APPROVE_OPTION) {
 				archivo = fileChooser.getSelectedFile();
 				vp.selectFile.setBackground(Color.green.darker());
-				vp.selectFile.setText(archivo.getName());
+				vp.ruta.setText(archivo.getAbsolutePath());
 
 				if (TiempoReal.size() == 0 && Usuario1.size() == 0 && Usuario2.size() == 0 && Usuario3.size() == 0){
 					IDS = 1;

@@ -174,7 +174,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		tabla.getColumn("T. Requerido").setPreferredWidth(54);
 		
 		JScrollPane scrTabla = new JScrollPane(tabla);
-		scrTabla.setPreferredSize(new Dimension(1590, 610));
+		scrTabla.setPreferredSize(new Dimension(this.getWidth(), 610));
 
 		
 		

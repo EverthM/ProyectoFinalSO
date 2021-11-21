@@ -54,7 +54,9 @@ public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 			
 			
 			if (cuantos == 0) {
+				
 				pro.TiempoReal.add(p);
+				pro.Todo.add(p);
 				break;
 			} // Fin if
 			break;
@@ -91,7 +93,10 @@ public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 					
 					
 					if (cuantos == 0) {
+                        
 						pro.Usuario1.add(p);
+						pro.Todo.add(p);
+
 						break;
 					} // Fin if
 
@@ -124,7 +129,10 @@ public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 					} /// Fin if
 
 					if (cuantos == 0) {
+					
 						pro.Usuario2.add(p);
+						pro.Todo.add(p);
+
 						break;
 					} // Fin if
 
@@ -159,7 +167,9 @@ public class AsignarMemoria extends Thread {// CLASE ASIGNAR RAM
 					} /// Fin if
 
 					if (cuantos == 0) {
+						
 						pro.Usuario3.add(p);
+						pro.Todo.add(p);
 						break;
 					} // Fin if
 

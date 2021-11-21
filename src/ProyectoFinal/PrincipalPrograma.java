@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFileChooser;
@@ -20,9 +21,9 @@ public class PrincipalPrograma {
 
 	JFrameVentanaPrincipal vp; // variable de la ventana pricipal
 	Procesador procesador; // variable del procesador
-	ArrayList<ModeloProceso> TiempoReal, Usuario1, Usuario2, Usuario3; // Arraylist que almacenan los procesos y tambien
+	ArrayList<ModeloProceso> TiempoReal, Usuario1, Usuario2, Usuario3, Procesos , Todo; // Arraylist que almacenan los procesos y tambien
 																		// las prioridades de estos
-	ArrayList<String> Todo; // Arralist de control de en la entrada de los procesos
+	  
 	MemoriaRAM Memoria[]; // vector de memoria
 	int IDS = 1; // Variable del IDS
 	int limite = 0; // Variable del limite
@@ -30,6 +31,8 @@ public class PrincipalPrograma {
 	File archivo = null;
 
 	AtomicBoolean simulacionActiva;
+	
+    Semaphore ram;
 
 	// Metodo constructor de la clase con sus respectivas inicializaciones
 	public PrincipalPrograma() {
@@ -38,7 +41,9 @@ public class PrincipalPrograma {
 		Usuario1 = new ArrayList<ModeloProceso>();
 		Usuario2 = new ArrayList<ModeloProceso>();
 		Usuario3 = new ArrayList<ModeloProceso>();
-		Todo = new ArrayList<String>();
+		Procesos = new ArrayList<ModeloProceso>();
+		Todo = new ArrayList<ModeloProceso>();
+		ram = new Semaphore(32);
 
 		simulacionActiva = new AtomicBoolean(false);
 
@@ -58,13 +63,13 @@ public class PrincipalPrograma {
 			Contador = 0;
 			limite = 0;
 
-			procesador = new Procesador(TiempoReal, Usuario1, Usuario2, Usuario3, vp, simulacionActiva);
+			procesador = new Procesador(TiempoReal, Usuario1, Usuario2, Usuario3, Todo, vp, simulacionActiva, ram, contar());
 			procesador.execute();
 
 			vp.iniciar.setEnabled(false);
 			vp.MemoriaRAM.setVisible(true);
 
-			// inicializadorProceso();
+			inicializadorProceso();
 		  }
 		});// FIN ACCION
 
@@ -80,8 +85,11 @@ public class PrincipalPrograma {
 					IDS = 1;
 					Contador = 0;
 					limite = 0;
-
-					inicializadorProceso();
+					Procesos.removeAll(Procesos);
+					Todo.removeAll(Todo);
+					limite = 0;
+					//inicializadorProceso();
+					listarProcesos();
 					vp.iniciar.setEnabled(true);
 					vp.recargar.setEnabled(false);
 				} else
@@ -106,8 +114,10 @@ public class PrincipalPrograma {
 				if (TiempoReal.size() == 0 && Usuario1.size() == 0 && Usuario2.size() == 0 && Usuario3.size() == 0){
 					IDS = 1;
 					Contador = 0;
+					Procesos.removeAll(Procesos);
 					limite = 0;
-					inicializadorProceso();
+					//inicializadorProceso();
+					listarProcesos();
 					vp.iniciar.setEnabled(true);
 					vp.recargar.setEnabled(false);
 				}
@@ -116,7 +126,18 @@ public class PrincipalPrograma {
 		});
 	}// Fin
 
-	public void contar() { // METODO QUE CUENTA LOS PROCESOS DEL TXT
+	public void listarProcesos(){
+
+		contar();
+        
+		for(int i=0; i<limite; i++){
+		ModeloProceso pr = crearProceso(abrirProceso());// ABRIMOS EL ARCHIVO DONDE ESTAN LOS PROCESOS
+
+		Procesos.add(pr);
+		}
+	}
+
+	public int contar() { // METODO QUE CUENTA LOS PROCESOS DEL TXT
 		FileReader fr = null;
 		BufferedReader br = null;
 
@@ -138,6 +159,7 @@ public class PrincipalPrograma {
 			e.printStackTrace();
 		}
 
+		return limite;
 	}// Fin contar
 
 	public String abrirProceso() { // METODO PARA ABRIR EL PROCESO DEL TXT
@@ -212,10 +234,11 @@ public class PrincipalPrograma {
 
 	public void inicializadorProceso() { // METODO QUE INCIALIZA EL PROCESO
 
-		contar(); // LLAMA AL METODO CONTAR
+		//contar(); // LLAMA AL METODO CONTAR
 
 		HiloRevisar r = new HiloRevisar(this); // CREA EL OBJETO DE LA CLASE
-		r.start(); // COMIENZA EL METODO STAR
+		r.run();; // COMIENZA EL METODO STAR
 
 	}
+
 }// Fin clase

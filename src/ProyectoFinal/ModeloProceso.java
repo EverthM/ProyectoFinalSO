@@ -22,6 +22,7 @@ int CD;//CDS asignados
 boolean ControlIngreso=true; // Control del ingreso
 boolean Color=false; //Variable de color
 boolean accesoTotal=false; //Variable de acceso total
+boolean RAMSI=false;
 
 
 	//Metodo constructor con todos sus parametros y sus inicializaciones

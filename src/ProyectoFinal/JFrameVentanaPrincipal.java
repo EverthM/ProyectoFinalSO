@@ -177,7 +177,6 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		scrTabla.setPreferredSize(new Dimension(this.getWidth(), 610));
 
 		
-		
 
         msg= new JLabel("CARGUE E INICIE LOS PROCESOS");
 		msg.setHorizontalAlignment(SwingConstants.CENTER);

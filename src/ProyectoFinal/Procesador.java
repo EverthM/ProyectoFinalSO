@@ -2,28 +2,38 @@ package ProyectoFinal;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.SwingWorker;
 
 public class Procesador extends SwingWorker<Object, Object> {
 	private ModeloProceso actual;// Proceso a correr cada tick
-	ArrayList<ModeloProceso> TiempoReal, usuario1, usuario2, usuario3;// Colas
+	ArrayList<ModeloProceso> TiempoReal, usuario1, usuario2, usuario3, Todo;// Colas
 	int Impresora = 2, Scanner = 1, Modem = 1, CD = 2;// Dispositivos E/S
 	JFrameVentanaPrincipal vp;// Ventana principal
 	boolean color = false;// Para poner color a la RAM
 	boolean pass = true;// Para detener el while principal
 	AtomicBoolean simulacionActiva;
+	int contadorTodo;
+	int limite;
+	int procesosTerminados;
+
+	Semaphore ram;
 
 	Procesador(ArrayList<ModeloProceso> TiempoReal, ArrayList<ModeloProceso> usuario1,
-			ArrayList<ModeloProceso> usuario2, ArrayList<ModeloProceso> usuario3, JFrameVentanaPrincipal vp, AtomicBoolean simulacionActiva) {
+			ArrayList<ModeloProceso> usuario2, ArrayList<ModeloProceso> usuario3, ArrayList<ModeloProceso> Todo, JFrameVentanaPrincipal vp, AtomicBoolean simulacionActiva, Semaphore ram, int limite) {
 
 		// Asignacion
 		this.TiempoReal = TiempoReal;
 		this.usuario1 = usuario1;
 		this.usuario2 = usuario2;
 		this.usuario3 = usuario3;
+		this.Todo = Todo;
 		this.vp = vp;// Asigna Ventana Principal
 		this.simulacionActiva=simulacionActiva;
+		contadorTodo=0;
+		this.ram = ram;
+		this.limite = limite;
 
 	}// Contructor
 
@@ -88,6 +98,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 						if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
 							vp.modelo.setValueAt("Listo", t, 1);
 							vp.modelo.setValueAt("R-0, R-1", t, 8);
+							
+							if(Todo.size() > contadorTodo){
+							asigna(Todo.get(contadorTodo));
+							contadorTodo++;
+							}
 						}
 						
 					}
@@ -110,6 +125,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 						}
 						// Aca adentro se elimina si el proceso finaliza
 						TiempoReal.remove(i);
+						procesosTerminados++;
 						// vp.proF[0]++;
 						// vp.procesosF[0].setText(vp.tit[0] + vp.proF[0]);
 						setProceso(null);
@@ -316,8 +332,13 @@ public class Procesador extends SwingWorker<Object, Object> {
 							}
 
 						}
+						int resu = 0;// VARIABLE PARA SABER CUANTOS ESPACIOS NECESITA EN MEMORIA
 
+				// DIVISION PARA Y REDONDEO AL NUMERO MAYOR PARA ASIGNAR LA CANTIDAD NECESARIA
+				resu = (int) Math.ceil(usuario1.get(i).getMemoria() / 32.0f);
+                        ram.release(resu);
 						usuario1.remove(i);// Se eliminar
+						procesosTerminados++;
 						// vp.procesosF[1].setText(vp.tit[1] + vp.proF[1]);
 
 						// Se libera RAM
@@ -534,9 +555,13 @@ public class Procesador extends SwingWorker<Object, Object> {
 							}
 
 						}
+						int resu = 0;// VARIABLE PARA SABER CUANTOS ESPACIOS NECESITA EN MEMORIA
 
+						// DIVISION PARA Y REDONDEO AL NUMERO MAYOR PARA ASIGNAR LA CANTIDAD NECESARIA
+						resu = (int) Math.ceil(usuario2.get(i).getMemoria() / 32.0f);
+						ram.release(resu);
 						usuario2.remove(i);
-
+                        procesosTerminados++;
 						for (int o = 2; o < 32; o++) {
 
 							if (vp.Memoria[o].getIDOcupador() == getProceso().getID()) {
@@ -747,9 +772,13 @@ public class Procesador extends SwingWorker<Object, Object> {
 							}
 
 						}
+						int resu = 0;// VARIABLE PARA SABER CUANTOS ESPACIOS NECESITA EN MEMORIA
 
+						// DIVISION PARA Y REDONDEO AL NUMERO MAYOR PARA ASIGNAR LA CANTIDAD NECESARIA
+						resu = (int) Math.ceil(usuario3.get(i).getMemoria() / 32.0f);
+								ram.release(resu);
 						usuario3.remove(i);
-
+						procesosTerminados++;
 						for (int o = 2; o < 32; o++) {
 
 							if (vp.Memoria[o].getIDOcupador() == getProceso().getID()) {
@@ -771,12 +800,15 @@ public class Procesador extends SwingWorker<Object, Object> {
 					} // Fin if
 
 				} // Fin for
+				if(limite == procesosTerminados){
 				if (TiempoReal.size() == 0 && usuario1.size() == 0 && usuario2.size() == 0 && usuario3.size() == 0) {
 					simulacionActiva.set(false);
 					vp.recargar.setEnabled(true);
 					vp.MemoriaRAM.dispose();
+					Todo.removeAll(Todo);
 					pass = false;
 				}
+			}
 
 			}
 		} // Fin wile
@@ -812,12 +844,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 							getProceso().setPri_Actual(getProceso().getPri_Actual() + 1);
 						}
 
-						// Acutaliza el registro
-						vp.logg += getProceso().mostrar() + "\n-------------------------\n";
-
-						// Actualiza la consola
-						vp.consola.setText(getProceso().mostrar());
-
+						
 						for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 							if ((int) vp.modelo.getValueAt(t, 0) == getProceso().ID) {
@@ -837,6 +864,8 @@ public class Procesador extends SwingWorker<Object, Object> {
 	}// Fin
 
 	public void asigna(ModeloProceso proceso) {
+		synchronized(proceso){
+		if(!proceso.Color){
 		// Metodo que colorea la RAM
 		// Colores RGB aliatorios
 		vp.rgb[0] = (int) Math.floor(Math.random() * (255) + (0));
@@ -851,6 +880,7 @@ public class Procesador extends SwingWorker<Object, Object> {
 			if (vp.Memoria[i].getIDOcupador() == proceso.getID()) {
 				vp.Memoria[i].Barra.setBackground(new Color(vp.rgb[0], vp.rgb[1], vp.rgb[2]));
 				proceso.Color = true;
+
 				for (int t = 0; t < vp.modelo.getRowCount(); t++) {
 
 					if ((int) vp.modelo.getValueAt(t, 0) == proceso.getID()) {
@@ -859,8 +889,11 @@ public class Procesador extends SwingWorker<Object, Object> {
 					}
 
 				}
+
 			} /// Fin if
 		} // Fin for
+	}//Fin if
+    }
 	}// Fin asigna
 
 	// GETS AND SETS

@@ -6,7 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
-
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,7 +24,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 	DefaultTableModel modelo;
 	JTable tabla;
 
-	JDialog MemoriaRAM;
+	MemoriaPanel MemoriaRAM;
 	int[] rgb;// ARREGLO PARA LOS COLORES DE LA MEMORIA
 	MemoriaRAM[] Memoria;// ARREGLO DE LA CLASE RAM
 	JPanel panelRAM, RAM;// PANELES DE LA INTERFAZ
@@ -33,6 +34,22 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 
 	public JFrameVentanaPrincipal(MemoriaRAM[] ram) {// CONSTRUCTOR DE LA CLASE
 
+
+		JPanel panelFondo  = new JPanel(){
+			@Override
+			public void paint(Graphics g) {
+				
+
+		    g.drawImage(new ImageIcon("iconos/fondo.jpg").getImage(), 0, 0, null);
+			setOpaque(false);
+			super.paint(g);
+
+			}
+		};
+		panelFondo.setBounds(0, 0, this.getWidth(), this.getHeight());
+		
+        setContentPane(panelFondo);
+
 		// INICIALIZAMOS
 		rgb = new int[3];
 		Memoria = ram;
@@ -41,8 +58,8 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.pink);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+		getContentPane().setBackground(Color.LIGHT_GRAY);
+		getContentPane().setLayout(null);
 
 		initComp();// LLAMAMOS AL METODO
 
@@ -99,14 +116,14 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		panelRAM = new JPanel();
 		panelRAM.setLayout(new FlowLayout());
 		panelRAM.setPreferredSize(new Dimension(300, 300));
-		panelRAM.setBackground(Color.pink);
+		panelRAM.setOpaque(false);
 
 		// PANEL DONDE IRA LA BARRA DE LA MEMORIA RAM
 		RAM = new JPanel();
 		RAM.setPreferredSize(new Dimension(246, 245));
 		RAM.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		RAM.setBorder(BorderFactory.createEtchedBorder());
-		RAM.setBackground(Color.pink);
+		RAM.setOpaque(false);
 		// BOTON INICIAR SIMULAICON
 		iniciar = new JButton("Iniciar simulacion");
 		iniciar.setPreferredSize(new Dimension(200,40));
@@ -198,9 +215,19 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		panelControl.add(iniciar);
 		panelControl.add(recargar);
 		
-		add(panelControl);
-		add(dispositivos);
-		add(scrTabla);
+
+        JPanel panelPrincipal = new JPanel();
+		panelPrincipal.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+		panelPrincipal.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		panelPrincipal.setLocation(0, 0);
+		panelPrincipal.setOpaque(false);
+
+		panelPrincipal.add(panelControl);
+		panelPrincipal.add(dispositivos);
+		panelPrincipal.add(scrTabla);
+
+		add(panelPrincipal);
+		
 
 		inicializarRAM();// LLAMAMOS AL METODO INICIALIZAR RAM
 
@@ -212,7 +239,7 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 		//dialog.setVisible(true);
 
         
-		MemoriaRAM = new JDialog();
+		MemoriaRAM = new MemoriaPanel();
 		MemoriaRAM.setTitle("RAM");
 		MemoriaRAM.setSize(new Dimension(350, 292));
 		MemoriaRAM.setLayout(new BorderLayout());
@@ -254,5 +281,33 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
 
 		} // Fin for
 	}// Fin inicializarRAM
+
+	@Override
+	public void paintComponents(Graphics g) {
+		super.paintComponents(g);
+		g.drawImage(new ImageIcon("iconos/fondo.jpg").getImage(), 0, 0,null);
+	}
+
+	class MemoriaPanel extends JDialog {
+    
+		public MemoriaPanel(){
+			JPanel panelFondo  = new JPanel(){
+				@Override
+				public void paint(Graphics g) {
+					
+	
+				g.drawImage(new ImageIcon("iconos/fondo.jpg").getImage(), 0, 0, null);
+				setOpaque(false);
+				super.paint(g);
+	
+				}
+			};
+			panelFondo.setBounds(0, 0, this.getWidth(), this.getHeight());
+			
+			setContentPane(panelFondo);
+		}
+
+
+	}
 
 }// Fin clas

@@ -16,7 +16,7 @@ public class HiloRevisar extends Thread {// CLASE REVISAR
 	@Override
 	public void run() {// METODO RUN
       int limite = pro.contar();
-		while (count < (limite-1)) {// MIENTRAS EL CONTADOR SEA MENOR AL LIMITE
+		while (count < pro.Procesos.size()) {// MIENTRAS EL CONTADOR SEA MENOR AL LIMITE
 
 			//ModeloProceso pr = pro.crearProceso(pro.abrirProceso());// ABRIMOS EL ARCHIVO DONDE ESTAN LOS PROCESOS
             ModeloProceso pr = pro.Procesos.get(count);

@@ -241,9 +241,9 @@ public class JFrameVentanaPrincipal extends JFrame {// CLASE VENTANA
         
 		MemoriaRAM = new MemoriaPanel();
 		MemoriaRAM.setTitle("RAM");
-		MemoriaRAM.setSize(new Dimension(350, 292));
+		MemoriaRAM.setSize(new Dimension(270, 292));
 		MemoriaRAM.setLayout(new BorderLayout());
-		MemoriaRAM.setLocation(1320, 0);
+		MemoriaRAM.setLocation((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-280, 0);
 		MemoriaRAM.setAlwaysOnTop(true);
 		
 		panelRAM.add(RAM);

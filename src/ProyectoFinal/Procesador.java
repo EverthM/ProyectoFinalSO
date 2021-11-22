@@ -36,52 +36,9 @@ public class Procesador extends SwingWorker<Object, Object> {
 		this.limite = limite;
 
 	}// Contructor
-
+// tipo de hilo por detras y se liga con la intefaz.
 	@Override
 	protected Object doInBackground() throws Exception {
-
-		for(int i=0; i<TiempoReal.size(); i++){
-			for (int t = 0; t < vp.modelo.getRowCount(); t++) {
-
-				if ((int) vp.modelo.getValueAt(t, 0) == TiempoReal.get(i).ID) {
-					vp.modelo.setValueAt("Bloqueado", t, 1);
-				}
-
-			}
-		 }
-
-        //  Thread colorear = new Thread(){
-		// 	 @Override
-		// 	 public void run() {
-		// 		 super.run();
-        //         try{
-		// 		 while(pass){
-		// 			 for(int i=0; i<usuario1.size(); i++){
-		// 				if (!usuario1.get(i).Color) {// Colorea la RAM
-		// 					asigna(usuario1.get(i));
-		// 					Thread.sleep(700);
-		// 				}
-		// 			 }
-		// 			 for(int i=0; i<usuario2.size(); i++){
-		// 				if (!usuario2.get(i).Color) {// Colorea la RAM
-		// 					asigna(usuario2.get(i));
-		// 					Thread.sleep(700);
-		// 				}
-		// 			 }
-		// 			 for(int i=0; i<usuario3.size(); i++){
-		// 				if (!usuario3.get(i).Color) {// Colorea la RAM
-		// 					asigna(usuario3.get(i));
-		// 					Thread.sleep(700);
-		// 				}
-		// 			 }
-		// 		 }
-		// 		}catch(Exception e){}
-
-		// 	 }
-		//  };
-		//  colorear.start();
-
-		// Metodo principal a correr
 
 		// Bucle que se repite hasta acabar todos los procesos
 		while (pass) {
